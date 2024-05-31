@@ -1,5 +1,6 @@
 import { GameState } from "./game-state";
 
 export class GlobalState {
-  static activeGames: GameState[] = [];
+  // @todo make this generate on game start
+  static activeGames: GameState[] = [new GameState()];
 }

@@ -2,6 +2,8 @@ import express from "express";
 import { WebSocketServer } from "ws";
 
 import LifeTest from "./api/life-test.js";
+import { ServerSentWebsocketMessage } from "./message-types";
+import { GlobalState } from "./game/global-state";
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -27,7 +29,12 @@ wss.on("connection", function connection(ws) {
     console.log("received: %s", data);
   });
 
-  ws.send("something");
+  const message: ServerSentWebsocketMessage = {
+    type: "STATE",
+    payload: { state: GlobalState.activeGames[0] },
+  };
+
+  ws.send(JSON.stringify(message));
 });
 
 app.use(LifeTest);
