@@ -1,7 +1,7 @@
 import express from "express";
-import ws from "ws";
+import { WebSocketServer } from "ws";
 
-import LifeTest from "./api/life-test";
+import LifeTest from "./api/life-test.js";
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -9,7 +9,8 @@ const port = process.env.PORT || 3001;
 const server = app.listen(port, () =>
   console.log(`Example app listening on port ${port}!`)
 );
-const wss = new ws.Server({ server: server });
+
+const wss = new WebSocketServer({ server: server });
 
 // app.get("/", (req, res) => res.json({ hello: "world" }).status(200).send());
 
