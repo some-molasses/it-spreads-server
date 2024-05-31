@@ -1,7 +1,7 @@
-import express from "express";
-import ws from "ws";
+const express = require("express");
+const ws = require("ws");
 
-import LifeTest from "./api/life-test";
+const LifeTest = require("./api/life-test");
 
 const app = express();
 const port = process.env.PORT || 3001;
