@@ -7,10 +7,9 @@
   "author": "Render Developers",
   "license": "MIT",
   "private": false,
-  "type": "module",
   "scripts": {
     "dev": "nodemon app.ts",
-    "start": "ts-node app.ts"
+    "start": "node --loader ts-node/esm app.ts"
   },
   "dependencies": {
     "express": "^4.18.2",
