@@ -38,8 +38,11 @@ export class Connections {
 
     ws.on("close", () => Connections.closeConnection(ws));
 
-    const handshake: ServerSentWebsocketMessage.HandshakePayload = {
-      localPlayerIndex: playerIndex,
+    const handshake: ServerSentWebsocketMessage = {
+      type: "HANDSHAKE",
+      payload: {
+        localPlayerIndex: playerIndex,
+      },
     };
     ws.send(JSON.stringify(handshake));
   }
