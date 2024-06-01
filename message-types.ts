@@ -1,12 +1,20 @@
 import { Game } from "./game/game";
 
 export interface ServerSentWebsocketMessage {
-  type: "STATE";
-  payload: GameStatePayload;
+  type: "STATE" | "HANDSHAKE";
+  payload:
+    | ServerSentWebsocketMessage.GameStatePayload
+    | ServerSentWebsocketMessage.HandshakePayload;
 }
 
-interface GameStatePayload {
-  state: Game;
+export namespace ServerSentWebsocketMessage {
+  export interface GameStatePayload {
+    state: Game;
+  }
+
+  export interface HandshakePayload {
+    localPlayerIndex: number;
+  }
 }
 
 export interface ClientSentWebsocketMessage {
@@ -16,6 +24,7 @@ export interface ClientSentWebsocketMessage {
 
 export namespace ClientSentWebsocketMessage {
   export interface GameStatePayload {
+    localPlayerIndex: number;
     player: {
       x: number;
       y: number;

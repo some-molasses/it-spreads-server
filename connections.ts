@@ -7,6 +7,8 @@ import { GlobalState } from "./game/global-state";
 
 interface Connection {
   isToBeKilled: boolean;
+  playerIndex: number;
+
   ws: WebSocket;
 }
 
@@ -20,7 +22,9 @@ export class Connections {
   }
 
   static registerConnection(ws: WebSocket) {
-    Connections.connectedClients.push({ ws, isToBeKilled: false });
+    const playerIndex = GlobalState.activeGames[0].players.length;
+
+    Connections.connectedClients.push({ ws, isToBeKilled: false, playerIndex });
 
     GlobalState.activeGames[0].activate();
 
@@ -30,13 +34,23 @@ export class Connections {
       Connections.handleMessage(JSON.parse(message.toString()));
     });
 
+    GlobalState.activeGames[0].addPlayer(0, 0);
+
     ws.on("close", () => Connections.closeConnection(ws));
   }
 
   static cleanConnections() {
     // kill all connections marked for deletion
     Connections.connectedClients = Connections.connectedClients.filter(
-      (client) => !client.isToBeKilled
+      (client) => {
+        /**
+         * @todo make this work in such a way that dropping a connection doesn't reshuffle
+         * player indexes
+         */
+        if (client.isToBeKilled) {
+          GlobalState.activeGames[0].players.splice(client.playerIndex, 1);
+        }
+      }
     );
 
     if (Connections.connectedClients.length === 0) {
@@ -59,7 +73,11 @@ export class Connections {
     console.log("received: %s", data);
 
     if (data.type === "STATE") {
-      GlobalState.activeGames[0].setPlayer(data.payload.player);
+      GlobalState.activeGames[0].setPlayer(
+        data.payload.localPlayerIndex,
+        data.payload.player
+      );
+
       GlobalState.activeGames[0].updateGameState();
 
       this.sendState();
