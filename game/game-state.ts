@@ -16,8 +16,15 @@ class TeamState {
 }
 
 export class GameState {
-  teams = {
+  teams: Record<Team, TeamState> = {
     [Team.GREEN]: new TeamState(Team.GREEN, () => this),
     [Team.PURPLE]: new TeamState(Team.PURPLE, () => this),
   };
+
+  getData() {
+    const result = {};
+    for (const key in this.teams) {
+      result[key] = this.teams[key].getData();
+    }
+  }
 }

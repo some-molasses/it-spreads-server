@@ -1,4 +1,5 @@
 import { CONFIG } from "../config";
+import { toDecimals } from "../util";
 import { Circle } from "./entities/circle";
 import { GameState } from "./game-state";
 import { Team } from "./globals";
@@ -51,6 +52,12 @@ export class Spill {
         this.spread();
       }
     }, SPREAD_INTERVAL);
+  }
+
+  toJSON() {
+    return {
+      points: this.points,
+    };
   }
 
   update() {
@@ -115,6 +122,10 @@ class SpillPoint extends Circle {
     } else {
       return SpillPoint.State.SHRINKING;
     }
+  }
+
+  toJSON() {
+    return [toDecimals(this.x, 3), toDecimals(this.y, 3)];
   }
 
   update() {
