@@ -47,6 +47,7 @@ export class Connections {
     if (data.type === "STATE") {
       GlobalState.activeGames[0].setPlayer(data.payload.player);
       console.log(data.payload);
+      this.sendState();
     }
   }
 
