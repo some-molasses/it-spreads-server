@@ -13,8 +13,16 @@ interface Connection {
 export class Connections {
   static connectedClients: Connection[] = [];
 
+  static init() {
+    setInterval(() => {
+      Connections.cleanConnections();
+    }, 5000);
+  }
+
   static registerConnection(ws: WebSocket) {
     Connections.connectedClients.push({ ws, isToBeKilled: false });
+
+    GlobalState.activeGames[0].activate();
 
     ws.on("error", console.error);
 
@@ -30,6 +38,10 @@ export class Connections {
     Connections.connectedClients = Connections.connectedClients.filter(
       (client) => !client.isToBeKilled
     );
+
+    if (Connections.connectedClients.length === 0) {
+      GlobalState.activeGames[0].deactivate();
+    }
   }
 
   static closeConnection(ws: WebSocket) {
