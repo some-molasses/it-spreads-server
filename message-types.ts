@@ -1,4 +1,4 @@
-import { GameState } from "./game/game-state";
+import { Game } from "./game/game";
 
 export interface ServerSentWebsocketMessage {
   type: "STATE";
@@ -6,7 +6,7 @@ export interface ServerSentWebsocketMessage {
 }
 
 interface GameStatePayload {
-  state: GameState;
+  state: Game;
 }
 
 export interface ClientSentWebsocketMessage {

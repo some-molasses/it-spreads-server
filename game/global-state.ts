@@ -1,6 +1,6 @@
-import { GameState } from "./game-state";
+import { Game } from "./game";
 
 export class GlobalState {
   // @todo make this generate on game start
-  static activeGames: GameState[] = [new GameState()];
+  static activeGames: Game[] = [new Game()];
 }

@@ -1,7 +1,7 @@
 import { CONFIG } from "../config";
 import { toDecimals } from "../util";
 import { Circle } from "./entities/circle";
-import { GameState } from "./game-state";
+import { Game } from "./game";
 import { Team } from "./globals";
 
 const CIRCLE_WIDTH = 5;
@@ -25,9 +25,9 @@ export class Spill {
   points: SpillPoint[] = [];
   team: Team;
 
-  getGame: () => GameState;
+  getGame: () => Game;
 
-  constructor(getGame: () => GameState, team: Team) {
+  constructor(getGame: () => Game, team: Team) {
     this.getGame = getGame;
     this.team = team;
 

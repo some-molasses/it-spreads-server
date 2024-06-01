@@ -46,13 +46,10 @@ export class Connections {
   static handleMessage(data: ClientSentWebsocketMessage) {
     console.log("received: %s", data);
 
-    console.log(typeof data);
-    console.log(Object.entries(data));
-    console.log(data["type"]);
-
     if (data.type === "STATE") {
       GlobalState.activeGames[0].setPlayer(data.payload.player);
-      console.log(data.payload);
+      GlobalState.activeGames[0].updateGameState();
+
       this.sendState();
     }
   }
