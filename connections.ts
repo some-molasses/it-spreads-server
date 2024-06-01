@@ -54,7 +54,7 @@ export class Connections {
          * @todo make this work in such a way that dropping a connection doesn't reshuffle
          * player indexes
          */
-        if (client.isToBeKilled) {
+        if (client?.isToBeKilled) {
           GlobalState.activeGames[0].players.splice(client.playerIndex, 1);
         }
       }
@@ -69,9 +69,13 @@ export class Connections {
     ws.close();
 
     // for concurrency
-    Connections.connectedClients.find(
+    const killableClient = Connections.connectedClients.find(
       (client) => client.ws === ws
-    )!.isToBeKilled = true;
+    );
+
+    if (killableClient) {
+      killableClient.isToBeKilled = true;
+    }
 
     Connections.cleanConnections();
   }
