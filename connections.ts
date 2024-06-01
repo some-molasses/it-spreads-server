@@ -37,6 +37,11 @@ export class Connections {
     GlobalState.activeGames[0].addPlayer(0, 0);
 
     ws.on("close", () => Connections.closeConnection(ws));
+
+    const handshake: ServerSentWebsocketMessage.HandshakePayload = {
+      localPlayerIndex: playerIndex,
+    };
+    ws.send(JSON.stringify(handshake));
   }
 
   static cleanConnections() {
