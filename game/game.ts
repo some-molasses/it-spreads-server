@@ -32,6 +32,8 @@ export class Game {
 
   deactivate() {
     clearInterval(this.interval);
+    this.players = [];
+
     console.info("Game deactivated");
   }
 
