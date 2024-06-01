@@ -45,6 +45,7 @@ export class Connections {
     console.log("received: %s", data);
 
     console.log(typeof data);
+    console.log(data.type);
 
     if (data.type === "STATE") {
       GlobalState.activeGames[0].setPlayer(data.payload.player);
