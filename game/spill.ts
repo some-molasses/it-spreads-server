@@ -30,7 +30,7 @@ export class Spill {
     this.getGame = getGame;
     this.team = team;
 
-    this.points.push(new SpillPoint(600, 500, this));
+    this.points.push(new SpillPoint(600, 500, () => this));
 
     const interval = setInterval(() => {
       if (this.points.length < 0) {
@@ -76,7 +76,7 @@ export class Spill {
       new SpillPoint(
         CONFIG.inWidth(x, MAX_CIRCLE_WIDTH),
         CONFIG.inHeight(y, MAX_CIRCLE_WIDTH),
-        this
+        () => this
       )
     );
   }
@@ -85,12 +85,12 @@ export class Spill {
 class SpillPoint extends Circle {
   creationTime: number = Date.now();
   dying: boolean = false;
-  spill: Spill;
+  getSpill: () => Spill;
 
-  constructor(x: number, y: number, spill: Spill) {
+  constructor(x: number, y: number, getSpill: () => Spill) {
     super(x, y, CIRCLE_WIDTH);
 
-    this.spill = spill;
+    this.getSpill = getSpill;
   }
 
   get isDead() {
@@ -133,9 +133,9 @@ class SpillPoint extends Circle {
     /**
      * @todo handle multiple players per team
      */
-    const playerDistance = this.spill
+    const playerDistance = this.getSpill()
       .getGame()
-      .teams[this.spill.team].player.distanceTo(this);
+      .teams[this.getSpill().team].player.distanceTo(this);
     if (playerDistance < SWEEP_RADIUS) {
       this.r -= Math.pow(
         SPILL_POINT_SWEEP_RATE *
