@@ -22,11 +22,12 @@ const SWEEP_RADIUS = 150;
  */
 export class Spill {
   points: SpillPoint[] = [];
-  game: GameState;
   team: Team;
 
-  constructor(game: GameState, team: Team) {
-    this.game = game;
+  getGame: () => GameState;
+
+  constructor(getGame: () => GameState, team: Team) {
+    this.getGame = getGame;
     this.team = team;
 
     this.points.push(new SpillPoint(600, 500, this));
@@ -132,8 +133,9 @@ class SpillPoint extends Circle {
     /**
      * @todo handle multiple players per team
      */
-    const playerDistance =
-      this.spill.game.teams[this.spill.team].player.distanceTo(this);
+    const playerDistance = this.spill
+      .getGame()
+      .teams[this.spill.team].player.distanceTo(this);
     if (playerDistance < SWEEP_RADIUS) {
       this.r -= Math.pow(
         SPILL_POINT_SWEEP_RATE *

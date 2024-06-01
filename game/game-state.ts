@@ -3,20 +3,21 @@ import { Team } from "./globals";
 import { Spill } from "./spill";
 
 class TeamState {
-  game: GameState;
   player: Player;
   spill: Spill;
 
-  constructor(team: Team, game: GameState) {
-    this.game = game;
+  getGame: () => GameState;
+
+  constructor(team: Team, getGame: () => GameState) {
+    this.getGame = getGame;
     this.player = new Player(0, 0, 50);
-    this.spill = new Spill(game, team);
+    this.spill = new Spill(getGame, team);
   }
 }
 
 export class GameState {
   teams = {
-    [Team.GREEN]: new TeamState(Team.GREEN, this),
-    [Team.PURPLE]: new TeamState(Team.PURPLE, this),
+    [Team.GREEN]: new TeamState(Team.GREEN, () => this),
+    [Team.PURPLE]: new TeamState(Team.PURPLE, () => this),
   };
 }
