@@ -1,18 +1,17 @@
 import { Game } from "./game/game";
 
-export interface ServerSentWebsocketMessage {
-  type: "STATE" | "HANDSHAKE";
-  payload:
-    | ServerSentWebsocketMessage.GameStatePayload
-    | ServerSentWebsocketMessage.HandshakePayload;
-}
+export type ServerSentWebsocketMessage =
+  | ServerSentWebsocketMessage.GameStateMessage
+  | ServerSentWebsocketMessage.HandshakeMessage;
 
 export namespace ServerSentWebsocketMessage {
-  export interface GameStatePayload {
+  export interface GameStateMessage {
+    type: "STATE";
     state: Game;
   }
 
-  export interface HandshakePayload {
+  export interface HandshakeMessage {
+    type: "HANDSHAKE";
     localPlayerIndex: number;
   }
 }

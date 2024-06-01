@@ -40,10 +40,9 @@ export class Connections {
 
     const handshake: ServerSentWebsocketMessage = {
       type: "HANDSHAKE",
-      payload: {
-        localPlayerIndex: playerIndex,
-      },
+      localPlayerIndex: playerIndex,
     };
+
     ws.send(JSON.stringify(handshake));
   }
 
@@ -95,7 +94,7 @@ export class Connections {
   static sendState() {
     const message: ServerSentWebsocketMessage = {
       type: "STATE",
-      payload: { state: GlobalState.activeGames[0] },
+      state: GlobalState.activeGames[0],
     };
 
     this.sendToAll(message);
