@@ -90,7 +90,7 @@ export class Spill {
 }
 
 class SpillPoint extends Circle {
-  creationTime: number = Date.now();
+  seed: number = Date.now() % 10000;
   dying: boolean = false;
   getSpill: () => Spill;
 
@@ -114,9 +114,8 @@ class SpillPoint extends Circle {
     }
 
     if (
-      Math.abs(
-        ((this.creationTime - Date.now()) % CIRCLE_GROWTH_PERIOD_MS) * 2
-      ) < CIRCLE_GROWTH_PERIOD_MS
+      Math.abs(((this.seed - Date.now()) % CIRCLE_GROWTH_PERIOD_MS) * 2) <
+      CIRCLE_GROWTH_PERIOD_MS
     ) {
       return SpillPoint.State.GROWING;
     } else {
@@ -125,7 +124,12 @@ class SpillPoint extends Circle {
   }
 
   toJSON() {
-    return [toDecimals(this.x, 3), toDecimals(this.y, 3)];
+    return [
+      toDecimals(this.x, 3),
+      toDecimals(this.y, 3),
+      Math.round(this.r),
+      this.seed,
+    ];
   }
 
   update() {
