@@ -2,7 +2,10 @@ import express from "express";
 import { WebSocketServer } from "ws";
 
 import LifeTest from "./api/life-test.js";
-import { ServerSentWebsocketMessage } from "./message-types";
+import {
+  ClientSentWebsocketMessage,
+  ServerSentWebsocketMessage,
+} from "./message-types";
 import { GlobalState } from "./game/global-state";
 
 const app = express();
@@ -25,8 +28,13 @@ const wss = new WebSocketServer({ server: server });
 wss.on("connection", function connection(ws) {
   ws.on("error", console.error);
 
-  ws.on("message", function message(data) {
+  ws.on("message", function message(data: ClientSentWebsocketMessage) {
     console.log("received: %s", data);
+
+    if (data.type === "STATE") {
+      GlobalState.activeGames[0].setPlayer(data.payload.player);
+      console.log(data.payload);
+    }
   });
 
   const message: ServerSentWebsocketMessage = {

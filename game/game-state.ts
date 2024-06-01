@@ -27,4 +27,9 @@ export class GameState {
       result[key] = this.teams[key].getData();
     }
   }
+
+  setPlayer(values: { x: number; y: number; dx: number; dy: number }) {
+    this.teams[0].player.x = values.x;
+    this.teams[0].player.y = values.y;
+  }
 }

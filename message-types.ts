@@ -8,3 +8,19 @@ export interface ServerSentWebsocketMessage {
 interface GameStatePayload {
   state: GameState;
 }
+
+export interface ClientSentWebsocketMessage {
+  type: "STATE";
+  payload: ClientSentWebsocketMessage.GameStatePayload;
+}
+
+export namespace ClientSentWebsocketMessage {
+  export interface GameStatePayload {
+    player: {
+      x: number;
+      y: number;
+      dx: number;
+      dy: number;
+    };
+  }
+}
