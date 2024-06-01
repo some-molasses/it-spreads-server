@@ -18,7 +18,9 @@ export class Connections {
 
     ws.on("error", console.error);
 
-    ws.on("message", Connections.handleMessage);
+    ws.on("message", (message) => {
+      Connections.handleMessage(JSON.parse(message.toString()));
+    });
 
     ws.on("close", () => Connections.closeConnection(ws));
   }
