@@ -104,7 +104,7 @@ export class Connections {
     for (const connection of Connections.connectedClients) {
       if (connection.isToBeKilled) {
         console.info(`Deleting player with player ID ${connection.playerId}`);
-        delete GlobalState.activeGames[0].players[connection.playerId];
+        GlobalState.activeGames[0].players[connection.playerId] = undefined;
       }
     }
 
