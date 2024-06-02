@@ -103,6 +103,10 @@ export class Connections {
     );
 
     Connections.connectedClients.forEach((client) => {
+      if (client.isToBeKilled) {
+        return;
+      }
+
       if (client.ws.readyState === WebSocket.OPEN) {
         client.ws.send(JSON.stringify(message));
       } else {
