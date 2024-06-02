@@ -34,7 +34,7 @@ class TeamState {
 }
 
 export class Game {
-  players: Record<number, Player> = {};
+  players: Record<number, Player | undefined> = {};
   maxPlayersPerTeam: number = 1;
 
   interval?: NodeJS.Timeout;
@@ -108,15 +108,17 @@ export class Game {
     id: number,
     values: { x: number; y: number; dx: number; dy: number }
   ) {
-    if (!this.players[id]) {
+    if (this.players[id] === undefined) {
       console.error("Player does not exist");
       return;
     }
 
-    this.players[id].x = values.x;
-    this.players[id].y = values.y;
-    this.players[id].dx = values.dx;
-    this.players[id].dy = values.dy;
+    const definedPlayer = this.players[id] as Player;
+
+    definedPlayer.x = values.x;
+    definedPlayer.y = values.y;
+    definedPlayer.dx = values.dx;
+    definedPlayer.dy = values.dy;
   }
 
   toJSON() {

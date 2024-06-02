@@ -79,12 +79,12 @@ export class Spill {
 
   update() {
     const opposingPlayers = Object.values(this.getGame().players)
-      .filter((player) => player.team !== this.team)
+      .filter((player) => player && player.team !== this.team)
       .sort(
         (a, b) =>
-          (a.getConnection()?.connectionTime ?? 0) -
-          (b.getConnection()?.connectionTime ?? 0)
-      );
+          (a?.getConnection()?.connectionTime ?? 0) -
+          (b?.getConnection()?.connectionTime ?? 0)
+      ) as Player[];
 
     const checkedPlayers = opposingPlayers.filter((player, index) => {
       return index <= this.getGame().maxPlayersPerTeam;
