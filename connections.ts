@@ -38,9 +38,9 @@ export class Connections {
     ws.on("error", console.error);
 
     ws.on("message", (message) => {
-      const thisClient = Connections.connectedClients.find((client) => {
-        client.playerId === playerId;
-      });
+      const thisClient = Connections.connectedClients.find(
+        (client) => client.playerId === playerId
+      );
 
       if (!thisClient) {
         console.error("Client not found in connectedClients array");
