@@ -127,6 +127,7 @@ export class Game {
       teams: this.teams,
       timeRemaining: GAME_LENGTH - (Date.now() - this.startTime),
       playersRemaining: this.playersRemainingByTeam,
+      maxPlayersPerTeam: this.maxPlayersPerTeam,
     };
   }
 }
