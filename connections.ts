@@ -79,7 +79,7 @@ export class Connections {
   }
 
   static handleMessage(data: ClientSentWebsocketMessage) {
-    console.log("received: %s", data);
+    console.debug("received: %s", data);
 
     if (data.type === "STATE") {
       GlobalState.activeGames[0].setPlayer(

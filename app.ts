@@ -8,7 +8,7 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 const server = app.listen(port, () =>
-  console.log(`Example app listening on port ${port}!`)
+  console.info(`App listening on port ${port}!`)
 );
 
 const wss = new WebSocketServer({ server: server });
