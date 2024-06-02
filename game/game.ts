@@ -46,14 +46,10 @@ export class Game {
   get maxPlayersPerTeam() {
     const secondsElapsed = (Date.now() - this.startTime) / 1000;
 
-    if (secondsElapsed < 15) {
-      return 1;
-    } else if (secondsElapsed < 35) {
-      return 2;
-    } else if (secondsElapsed < 50) {
-      return 3;
+    if (secondsElapsed < 50) {
+      return Math.ceil(secondsElapsed / 10);
     } else {
-      return 10;
+      return 12;
     }
   }
 
