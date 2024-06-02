@@ -71,6 +71,7 @@ export class Game {
     this.players[id] = new Player(
       x,
       y,
+      id,
       Object.values(this.players).length % 2 === 0 ? Team.GREEN : Team.PURPLE
     );
   }

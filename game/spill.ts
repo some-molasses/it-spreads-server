@@ -1,6 +1,7 @@
 import { CONFIG } from "../config";
 import { toDecimals } from "../util";
 import { Circle } from "./entities/circle";
+import { Player } from "./entities/player";
 import { Game } from "./game";
 import { Team } from "./globals";
 
@@ -77,8 +78,22 @@ export class Spill {
   }
 
   update() {
-    for (const point of this.points) {
-      point.update();
+    const opposingPlayers = Object.values(this.getGame().players)
+      .filter((player) => player.team !== this.team)
+      .sort(
+        (a, b) =>
+          (a.getConnection()?.connectionTime ?? 0) -
+          (b.getConnection()?.connectionTime ?? 0)
+      );
+
+    const checkedPlayers = opposingPlayers.filter((player, index) => {
+      return index <= this.getGame().maxPlayersPerTeam;
+    });
+
+    for (const player of checkedPlayers) {
+      for (const point of this.points) {
+        point.update(player);
+      }
     }
   }
 
@@ -154,7 +169,7 @@ class SpillPoint extends Circle {
     ];
   }
 
-  update() {
+  update(player: Player) {
     if (this.growthState === SpillPoint.State.SHRINKING) {
       this.r -= SPILL_POINT_GROWTH_RATE;
     }
@@ -167,25 +182,19 @@ class SpillPoint extends Circle {
       return;
     }
 
-    const opposingPlayers = Object.values(
-      this.getSpill().getGame().players
-    ).filter((player) => player.team !== this.getSpill().team);
+    const playerDistance = player.distanceTo(this);
+    if (playerDistance < SWEEP_RADIUS) {
+      this.r -= Math.pow(
+        SPILL_POINT_SWEEP_RATE *
+          ((SWEEP_RADIUS - playerDistance) / SWEEP_RADIUS + 0.5),
+        1.2
+      );
 
-    for (const player of opposingPlayers) {
-      const playerDistance = player.distanceTo(this);
-      if (playerDistance < SWEEP_RADIUS) {
-        this.r -= Math.pow(
-          SPILL_POINT_SWEEP_RATE *
-            ((SWEEP_RADIUS - playerDistance) / SWEEP_RADIUS + 0.5),
-          1.2
-        );
-
-        if (this.r <= 0) {
-          this.dying = true;
-        }
-
-        return;
+      if (this.r <= 0) {
+        this.dying = true;
       }
+
+      return;
     }
   }
 }

@@ -158,7 +158,9 @@ export class Connections {
 
   private static sendToAll(message: ServerSentWebsocketMessage) {
     console.info(
-      `Sending message to ${Connections.connectedClients.length} connections`
+      `Sending message to ${
+        Connections.connectedClients.filter((c) => !c.isToBeKilled).length
+      } connections`
     );
 
     Connections.connectedClients.forEach((client) => {
