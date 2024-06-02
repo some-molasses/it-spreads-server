@@ -35,7 +35,6 @@ class TeamState {
 
 export class Game {
   players: Record<number, Player | undefined> = {};
-  maxPlayersPerTeam: number = 1;
 
   interval?: NodeJS.Timeout;
   teams: Record<Team, TeamState> = {
@@ -43,6 +42,20 @@ export class Game {
     [Team.PURPLE]: new TeamState(Team.PURPLE, () => this),
   };
   startTime: number = Date.now();
+
+  get maxPlayersPerTeam() {
+    const secondsElapsed = (Date.now() - this.startTime) / 1000;
+
+    if (secondsElapsed < 15) {
+      return 1;
+    } else if (secondsElapsed < 35) {
+      return 2;
+    } else if (secondsElapsed < 50) {
+      return 3;
+    } else {
+      return 10;
+    }
+  }
 
   get playersByTeam() {
     return Connections.connectionsByTeam;
@@ -80,7 +93,6 @@ export class Game {
     clearInterval(this.interval);
 
     this.players = {};
-    this.maxPlayersPerTeam = 1;
 
     this.teams[Team.GREEN].score = 0;
     this.teams[Team.PURPLE].score = 0;
