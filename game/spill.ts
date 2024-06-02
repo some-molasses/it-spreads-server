@@ -43,21 +43,15 @@ export class Spill {
     ];
 
     this.interval = setInterval(() => {
-      if (this.points.length < 0) {
-        clearInterval(this.interval);
-        // win condition
-        return;
-      }
-
       if (this.points.length >= POINT_MAXIMUM) {
         this.points[this.points.length - POINT_MAXIMUM].dying = true;
       }
 
-      if (this.points[0].isDead) {
+      if (this.points[0]?.isDead) {
         this.points.shift();
       }
 
-      if (this.points.length > 0 && this.points.length < POINT_MAXIMUM) {
+      if (this.points.length < POINT_MAXIMUM) {
         this.spread();
       }
     }, SPREAD_INTERVAL);
