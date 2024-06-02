@@ -104,6 +104,11 @@ export class Game {
     id: number,
     values: { x: number; y: number; dx: number; dy: number }
   ) {
+    if (!this.players[id]) {
+      console.error("Player does not exist");
+      return;
+    }
+
     this.players[id].x = values.x;
     this.players[id].y = values.y;
     this.players[id].dx = values.dx;
