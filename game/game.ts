@@ -21,7 +21,7 @@ class TeamState {
    */
   scoreFrame(): number {
     return (
-      this.getGame().teams[oppositeTeam(this.team)].spill.scoreSpill() / 10000
+      this.getGame().teams[oppositeTeam(this.team)].spill.scoreSpill() / 1000
     );
   }
 

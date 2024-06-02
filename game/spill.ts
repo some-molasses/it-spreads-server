@@ -55,7 +55,7 @@ export class Spill {
   }
 
   scoreSpill(): number {
-    return this.points.reduce((total, point) => total + point.r, 0);
+    return this.points.reduce((total, point) => total + point.r / 10, 0);
   }
 
   toJSON() {
