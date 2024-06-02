@@ -1,5 +1,5 @@
 import { CONFIG } from "../config";
-import { toDecimals } from "../util";
+import { oppositeTeam, toDecimals } from "../util";
 import { Circle } from "./entities/circle";
 import { Game } from "./game";
 import { Team } from "./globals";
@@ -52,6 +52,10 @@ export class Spill {
         this.spread();
       }
     }, SPREAD_INTERVAL);
+  }
+
+  scoreSpill(): number {
+    return this.points.reduce((total, point) => total + point.r, 0);
   }
 
   toJSON() {
@@ -148,10 +152,6 @@ class SpillPoint extends Circle {
     const opposingPlayers = Object.values(
       this.getSpill().getGame().players
     ).filter((player) => player.team !== this.getSpill().team);
-
-    if (opposingPlayers.length > 0) {
-      console.log("MORE THAN ZERO OPPONENTS");
-    }
 
     for (const player of opposingPlayers) {
       const playerDistance = player.distanceTo(this);

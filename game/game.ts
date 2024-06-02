@@ -1,15 +1,33 @@
+import { oppositeTeam } from "../util";
 import { Player } from "./entities/player";
 import { Team } from "./globals";
 import { Spill } from "./spill";
 
 class TeamState {
   spill: Spill;
+  team: Team;
+  score: number = 0;
 
   getGame: () => Game;
 
   constructor(team: Team, getGame: () => Game) {
     this.getGame = getGame;
     this.spill = new Spill(getGame, team);
+    this.team = team;
+  }
+
+  /**
+   * Returns a score for the current state of the game
+   */
+  scoreFrame(): number {
+    return this.getGame().teams[oppositeTeam(this.team)].spill.scoreSpill();
+  }
+
+  toJSON() {
+    return {
+      score: this.score,
+      spill: this.spill,
+    };
   }
 }
 
@@ -46,8 +64,9 @@ export class Game {
   }
 
   updateGameState() {
-    for (const team of Object.values(this.teams)) {
-      team.spill.update();
+    for (const ts of Object.values(this.teams)) {
+      ts.spill.update();
+      ts.score += ts.scoreFrame();
     }
   }
 
