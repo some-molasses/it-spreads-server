@@ -49,7 +49,7 @@ export class Game {
     if (secondsElapsed < 50) {
       return Math.ceil(secondsElapsed / 10);
     } else {
-      return 12;
+      return 16;
     }
   }
 
