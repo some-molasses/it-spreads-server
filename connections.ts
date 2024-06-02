@@ -5,6 +5,7 @@ import {
 } from "./message-types";
 import { GlobalState } from "./game/global-state";
 import { CONFIG } from "./config";
+import { Team } from "./game/globals";
 
 interface Connection {
   isToBeKilled: boolean;
@@ -16,6 +17,27 @@ interface Connection {
 
 export class Connections {
   static connectedClients: Connection[] = [];
+
+  static get connectionsByTeam(): Record<Team, Connection[]> {
+    const connectionsByTeam: Record<Team, Connection[]> = {
+      [Team.GREEN]: [],
+      [Team.PURPLE]: [],
+    };
+
+    for (const connection of Connections.connectedClients) {
+      const player = GlobalState.activeGames[0].players[connection.playerId];
+
+      if (!player) {
+        console.error(
+          `Connection ${connection.playerId} has no associated player`
+        );
+      }
+
+      connectionsByTeam[player.team].push(connection);
+    }
+
+    return connectionsByTeam;
+  }
 
   static init() {
     setInterval(() => {

@@ -1,3 +1,4 @@
+import { Connections } from "../connections";
 import { Player } from "./entities/player";
 import { Team } from "./globals";
 import { Spill } from "./spill";
@@ -34,12 +35,25 @@ class TeamState {
 
 export class Game {
   players: Record<number, Player> = {};
+  maxPlayersPerTeam: number = 1;
+
   interval?: NodeJS.Timeout;
   teams: Record<Team, TeamState> = {
     [Team.GREEN]: new TeamState(Team.GREEN, () => this),
     [Team.PURPLE]: new TeamState(Team.PURPLE, () => this),
   };
   startTime: number = Date.now();
+
+  get playersRemainingByTeam() {
+    const connectionsPerTeam = Connections.connectionsByTeam;
+
+    return {
+      [Team.GREEN]:
+        this.maxPlayersPerTeam - connectionsPerTeam[Team.GREEN].length,
+      [Team.PURPLE]:
+        this.maxPlayersPerTeam - connectionsPerTeam[Team.PURPLE].length,
+    };
+  }
 
   activate() {
     console.info("Activating game");
@@ -62,6 +76,7 @@ export class Game {
     clearInterval(this.interval);
 
     this.players = {};
+    this.maxPlayersPerTeam = 1;
 
     this.teams[Team.GREEN].score = 0;
     this.teams[Team.PURPLE].score = 0;
@@ -100,6 +115,7 @@ export class Game {
       players: this.players,
       teams: this.teams,
       timeRemaining: GAME_LENGTH - (Date.now() - this.startTime),
+      playersRemaining: this.playersRemainingByTeam,
     };
   }
 }
