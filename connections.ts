@@ -9,6 +9,7 @@ import { CONFIG } from "./config";
 interface Connection {
   isToBeKilled: boolean;
   playerId: number;
+  lastUpdateTime: number;
 
   ws: WebSocket;
 }
@@ -25,13 +26,29 @@ export class Connections {
   static registerConnection(ws: WebSocket) {
     const playerId = Math.floor(Math.random() * 100000);
 
-    Connections.connectedClients.push({ ws, isToBeKilled: false, playerId });
+    Connections.connectedClients.push({
+      ws,
+      isToBeKilled: false,
+      playerId,
+      lastUpdateTime: Date.now(),
+    });
 
     GlobalState.activeGames[0].activate();
 
     ws.on("error", console.error);
 
     ws.on("message", (message) => {
+      const thisClient = Connections.connectedClients.find((client) => {
+        client.playerId === playerId;
+      });
+
+      if (!thisClient) {
+        console.error("Client not found in connectedClients array");
+        return;
+      }
+
+      thisClient.lastUpdateTime = Date.now();
+
       Connections.handleMessage(JSON.parse(message.toString()));
     });
 
@@ -52,6 +69,18 @@ export class Connections {
   }
 
   static cleanConnections() {
+    for (const connection of Connections.connectedClients) {
+      if (Date.now() - connection.lastUpdateTime < 10000) {
+        connection.isToBeKilled = true;
+      }
+    }
+
+    for (const connection of Connections.connectedClients) {
+      if (connection.isToBeKilled) {
+        delete GlobalState.activeGames[0].players[connection.playerId];
+      }
+    }
+
     // kill all connections marked for deletion
     const allClientsDead = Connections.connectedClients.reduce(
       (prev, connection) => prev && connection.isToBeKilled,
