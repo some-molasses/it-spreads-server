@@ -107,6 +107,7 @@ export class Connections {
       if (connection.isToBeKilled) {
         console.info(`Deleting player with player ID ${connection.playerId}`);
         GlobalState.activeGames[0].players[connection.playerId] = undefined;
+        connection.ws.close();
       }
     }
 
