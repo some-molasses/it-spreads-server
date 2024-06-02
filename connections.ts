@@ -48,19 +48,12 @@ export class Connections {
 
   static cleanConnections() {
     // kill all connections marked for deletion
-    Connections.connectedClients = Connections.connectedClients.filter(
-      (client) => {
-        /**
-         * @todo make this work in such a way that dropping a connection doesn't reshuffle
-         * player indexes
-         */
-        if (client?.isToBeKilled) {
-          delete GlobalState.activeGames[0].players[client.playerId];
-        }
-      }
+    const allClientsDead = Connections.connectedClients.reduce(
+      (prev, connection) => prev && connection.isToBeKilled,
+      true
     );
 
-    if (Connections.connectedClients.length === 0) {
+    if (allClientsDead) {
       GlobalState.activeGames[0].deactivate();
     }
   }
