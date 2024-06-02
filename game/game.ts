@@ -27,7 +27,11 @@ export class Game {
   }
 
   addPlayer(x: number, y: number, id: number) {
-    this.players[id] = new Player(x, y, 50);
+    this.players[id] = new Player(
+      x,
+      y,
+      Object.values(this.players).length % 2 === 0 ? Team.GREEN : Team.PURPLE
+    );
   }
 
   deactivate() {

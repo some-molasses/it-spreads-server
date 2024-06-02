@@ -7,6 +7,12 @@ export class Player extends Circle {
   dy: number;
   team: Team;
 
+  constructor(x: number, y: number, team: Team) {
+    super(x, y, 25);
+
+    this.team = team;
+  }
+
   toJSON() {
     return [
       toDecimals(this.x, 2),
