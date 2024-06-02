@@ -11,6 +11,7 @@ interface Connection {
   isToBeKilled: boolean;
   playerId: number;
   lastUpdateTime: number;
+  connectionTime: number;
 
   ws: WebSocket;
 }
@@ -52,6 +53,7 @@ export class Connections {
       ws,
       isToBeKilled: false,
       playerId,
+      connectionTime: Date.now(),
       lastUpdateTime: Date.now(),
     });
 
