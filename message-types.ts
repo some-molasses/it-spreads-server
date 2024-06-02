@@ -12,7 +12,7 @@ export namespace ServerSentWebsocketMessage {
 
   export interface HandshakeMessage {
     type: "HANDSHAKE";
-    localPlayerIndex: number;
+    localPlayerId: number;
   }
 }
 
@@ -23,7 +23,7 @@ export interface ClientSentWebsocketMessage {
 
 export namespace ClientSentWebsocketMessage {
   export interface GameStatePayload {
-    localPlayerIndex: number;
+    localPlayerId: number;
     player: {
       x: number;
       y: number;

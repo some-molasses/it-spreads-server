@@ -14,7 +14,7 @@ class TeamState {
 }
 
 export class Game {
-  players: Player[] = [];
+  players: Record<number, Player> = {};
   interval: NodeJS.Timeout;
   teams: Record<Team, TeamState> = {
     [Team.GREEN]: new TeamState(Team.GREEN, () => this),
@@ -26,13 +26,13 @@ export class Game {
     this.interval = setInterval(() => this.main(), 1000 / 60);
   }
 
-  addPlayer(x: number, y: number) {
-    this.players.push(new Player(x, y, 50));
+  addPlayer(x: number, y: number, id: number) {
+    this.players[id] = new Player(x, y, 50);
   }
 
   deactivate() {
     clearInterval(this.interval);
-    this.players = [];
+    this.players = {};
 
     console.info("Game deactivated");
   }
@@ -55,11 +55,13 @@ export class Game {
   }
 
   setPlayer(
-    index: number,
+    id: number,
     values: { x: number; y: number; dx: number; dy: number }
   ) {
-    this.players[index].x = values.x;
-    this.players[index].y = values.y;
+    this.players[id].x = values.x;
+    this.players[id].y = values.y;
+    this.players[id].dx = values.dx;
+    this.players[id].dy = values.dy;
   }
 
   toJSON() {

@@ -2,11 +2,6 @@ import express from "express";
 import { WebSocketServer, WebSocket } from "ws";
 
 import LifeTest from "./api/life-test.js";
-import {
-  ClientSentWebsocketMessage,
-  ServerSentWebsocketMessage,
-} from "./message-types";
-import { GlobalState } from "./game/global-state";
 import { Connections } from "./connections";
 
 const app = express();

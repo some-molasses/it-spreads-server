@@ -7,7 +7,7 @@ import { GlobalState } from "./game/global-state";
 
 interface Connection {
   isToBeKilled: boolean;
-  playerIndex: number;
+  playerId: number;
 
   ws: WebSocket;
 }
@@ -22,9 +22,9 @@ export class Connections {
   }
 
   static registerConnection(ws: WebSocket) {
-    const playerIndex = GlobalState.activeGames[0].players.length;
+    const playerId = Math.floor(Math.random() * 100000);
 
-    Connections.connectedClients.push({ ws, isToBeKilled: false, playerIndex });
+    Connections.connectedClients.push({ ws, isToBeKilled: false, playerId });
 
     GlobalState.activeGames[0].activate();
 
@@ -34,13 +34,13 @@ export class Connections {
       Connections.handleMessage(JSON.parse(message.toString()));
     });
 
-    GlobalState.activeGames[0].addPlayer(0, 0);
+    GlobalState.activeGames[0].addPlayer(0, 0, playerId);
 
     ws.on("close", () => Connections.closeConnection(ws));
 
     const handshake: ServerSentWebsocketMessage = {
       type: "HANDSHAKE",
-      localPlayerIndex: playerIndex,
+      localPlayerId: playerId,
     };
 
     ws.send(JSON.stringify(handshake));
@@ -55,7 +55,7 @@ export class Connections {
          * player indexes
          */
         if (client?.isToBeKilled) {
-          GlobalState.activeGames[0].players.splice(client.playerIndex, 1);
+          delete GlobalState.activeGames[0].players[client.playerId];
         }
       }
     );
@@ -85,7 +85,7 @@ export class Connections {
 
     if (data.type === "STATE") {
       GlobalState.activeGames[0].setPlayer(
-        data.payload.localPlayerIndex,
+        data.payload.localPlayerId,
         data.payload.player
       );
 
