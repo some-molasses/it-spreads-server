@@ -32,6 +32,8 @@ export class Connections {
         console.error(
           `Connection ${connection.playerId} has no associated player`
         );
+
+        continue;
       }
 
       connectionsByTeam[player.team].push(connection);
