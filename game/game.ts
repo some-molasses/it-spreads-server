@@ -85,7 +85,9 @@ export class Game {
       x,
       y,
       id,
-      Object.values(this.players).length % 2 === 0 ? Team.GREEN : Team.PURPLE
+      Object.values(this.players).filter((p) => !!p).length % 2 === 0
+        ? Team.GREEN
+        : Team.PURPLE
     );
   }
 
