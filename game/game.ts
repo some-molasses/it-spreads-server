@@ -15,7 +15,7 @@ class TeamState {
 
 export class Game {
   players: Record<number, Player> = {};
-  interval: NodeJS.Timeout;
+  interval?: NodeJS.Timeout;
   teams: Record<Team, TeamState> = {
     [Team.GREEN]: new TeamState(Team.GREEN, () => this),
     [Team.PURPLE]: new TeamState(Team.PURPLE, () => this),
@@ -48,13 +48,6 @@ export class Game {
   updateGameState() {
     for (const team of Object.values(this.teams)) {
       team.spill.update();
-    }
-  }
-
-  getData() {
-    const result = {};
-    for (const key in this.teams) {
-      result[key] = this.teams[key].getData();
     }
   }
 

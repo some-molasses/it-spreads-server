@@ -3,8 +3,8 @@ import { Team } from "../globals";
 import { Circle } from "./circle";
 
 export class Player extends Circle {
-  dx: number;
-  dy: number;
+  dx: number = 0;
+  dy: number = 0;
   team: Team;
 
   constructor(x: number, y: number, team: Team) {
