@@ -20,12 +20,14 @@ class TeamState {
    * Returns a score for the current state of the game
    */
   scoreFrame(): number {
-    return this.getGame().teams[oppositeTeam(this.team)].spill.scoreSpill();
+    return (
+      this.getGame().teams[oppositeTeam(this.team)].spill.scoreSpill() / 1000
+    );
   }
 
   toJSON() {
     return {
-      score: this.score,
+      score: Math.round(this.score),
       spill: this.spill,
     };
   }
