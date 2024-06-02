@@ -17,7 +17,7 @@ const SPREAD_INTERVAL = 30;
 
 const SPILL_POINT_GROWTH_RATE = 0.8;
 const SPILL_POINT_SWEEP_RATE = SPILL_POINT_GROWTH_RATE * 3;
-const SWEEP_RADIUS = 120;
+const SWEEP_RADIUS = 90;
 
 /**
  * - have points move away from player by biasing the random function
