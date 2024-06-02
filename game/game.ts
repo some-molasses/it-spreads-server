@@ -45,6 +45,9 @@ export class Game {
     console.info("Activating game");
     this.startTime = Date.now();
     this.interval = setInterval(() => this.main(), 1000 / 60);
+
+    this.teams[Team.GREEN].spill.activate();
+    this.teams[Team.PURPLE].spill.activate();
   }
 
   addPlayer(x: number, y: number, id: number) {
@@ -59,8 +62,13 @@ export class Game {
     clearInterval(this.interval);
 
     this.players = {};
+
     this.teams[Team.GREEN].score = 0;
     this.teams[Team.PURPLE].score = 0;
+
+    this.teams[Team.GREEN].spill.deactivate();
+    this.teams[Team.PURPLE].spill.deactivate();
+
     this.startTime = 0;
 
     console.info("Game deactivated");

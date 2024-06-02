@@ -24,6 +24,7 @@ const SWEEP_RADIUS = 120;
 export class Spill {
   points: SpillPoint[] = [];
   team: Team;
+  interval?: NodeJS.Timeout;
 
   getGame: () => Game;
 
@@ -33,9 +34,17 @@ export class Spill {
 
     this.points.push(new SpillPoint(600, 500, () => this));
 
-    const interval = setInterval(() => {
+    this.activate();
+  }
+
+  activate() {
+    this.points = [
+      new SpillPoint(CONFIG.WIDTH / 2, CONFIG.HEIGHT / 2, () => this),
+    ];
+
+    this.interval = setInterval(() => {
       if (this.points.length < 0) {
-        clearInterval(interval);
+        clearInterval(this.interval);
         // win condition
         return;
       }
@@ -52,6 +61,12 @@ export class Spill {
         this.spread();
       }
     }, SPREAD_INTERVAL);
+  }
+
+  deactivate() {
+    clearInterval(this.interval);
+
+    this.points = [];
   }
 
   scoreSpill(): number {
