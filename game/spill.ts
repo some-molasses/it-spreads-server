@@ -78,7 +78,8 @@ export class Spill {
   }
 
   update() {
-    const opposingPlayers = Object.values(this.getGame())
+    const opposingPlayers = Object.values(this.getGame().players)
+      .filter((p) => p && p !== undefined)
       .filter((player) => player && player.team !== this.team)
       .sort(
         (a, b) =>
