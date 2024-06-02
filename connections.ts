@@ -4,6 +4,7 @@ import {
   ServerSentWebsocketMessage,
 } from "./message-types";
 import { GlobalState } from "./game/global-state";
+import { CONFIG } from "./config";
 
 interface Connection {
   isToBeKilled: boolean;
@@ -34,7 +35,11 @@ export class Connections {
       Connections.handleMessage(JSON.parse(message.toString()));
     });
 
-    GlobalState.activeGames[0].addPlayer(0, 0, playerId);
+    GlobalState.activeGames[0].addPlayer(
+      CONFIG.WIDTH / 2,
+      CONFIG.HEIGHT / 2,
+      playerId
+    );
 
     ws.on("close", () => Connections.closeConnection(ws));
 
