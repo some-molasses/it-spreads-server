@@ -59,7 +59,9 @@ export class Connections {
       lastUpdateTime: Date.now(),
     });
 
-    GlobalState.activeGames[0].activate();
+    if (Object.values(GlobalState.activeGames[0].players).length === 0) {
+      GlobalState.activeGames[0].activate();
+    }
 
     ws.on("error", console.error);
 
