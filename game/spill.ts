@@ -85,6 +85,14 @@ export class Spill {
   spread() {
     const base = this.points[this.points.length - 1]; // random walk
 
+    if (!base) {
+      new SpillPoint(
+        CONFIG.inWidth(Math.random() * CONFIG.WIDTH, MAX_CIRCLE_WIDTH),
+        CONFIG.inHeight(Math.random() * CONFIG.HEIGHT, MAX_CIRCLE_WIDTH),
+        () => this
+      );
+    }
+
     const leftBias = 1 - Math.min(base.x / SOFT_BORDER_MARGIN, 1);
     const rightBias = -(
       1 - Math.min((CONFIG.WIDTH - base.x) / SOFT_BORDER_MARGIN, 1)
