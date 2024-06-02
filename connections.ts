@@ -109,8 +109,6 @@ export class Connections {
   }
 
   static handleMessage(data: ClientSentWebsocketMessage) {
-    console.debug("received: %s", data);
-
     if (data.type === "STATE") {
       GlobalState.activeGames[0].setPlayer(
         data.payload.localPlayerId,
