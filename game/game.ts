@@ -64,6 +64,7 @@ export class Game {
 
   toJSON() {
     return {
+      players: this.players,
       teams: this.teams,
     };
   }
