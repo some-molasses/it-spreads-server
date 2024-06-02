@@ -1,5 +1,5 @@
 import { CONFIG } from "../config";
-import { oppositeTeam, toDecimals } from "../util";
+import { toDecimals } from "../util";
 import { Circle } from "./entities/circle";
 import { Game } from "./game";
 import { Team } from "./globals";
@@ -16,7 +16,7 @@ const SPREAD_INTERVAL = 75;
 
 const SPILL_POINT_GROWTH_RATE = 0.4;
 const SPILL_POINT_SWEEP_RATE = SPILL_POINT_GROWTH_RATE * 3;
-const SWEEP_RADIUS = 150;
+const SWEEP_RADIUS = 120;
 
 /**
  * - have points move away from player by biasing the random function
