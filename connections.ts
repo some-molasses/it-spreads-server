@@ -98,7 +98,7 @@ export class Connections {
 
   static cleanConnections() {
     for (const connection of Connections.connectedClients) {
-      if (Date.now() - connection.lastUpdateTime < 10000) {
+      if (Date.now() - connection.lastUpdateTime > 10000) {
         connection.isToBeKilled = true;
       }
     }
