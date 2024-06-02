@@ -111,6 +111,10 @@ export class Connections {
       }
     }
 
+    Connections.connectedClients = Connections.connectedClients.filter(
+      (client) => !client.isToBeKilled
+    );
+
     // kill all connections marked for deletion
     const allClientsDead = Connections.connectedClients.reduce(
       (prev, connection) => prev && connection.isToBeKilled,
