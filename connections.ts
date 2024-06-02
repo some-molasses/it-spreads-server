@@ -172,7 +172,7 @@ export class Connections {
       if (client.ws.readyState === WebSocket.OPEN) {
         client.ws.send(JSON.stringify(message));
       } else {
-        throw new Error("Connection is not open!");
+        console.error("Connection is not open!");
       }
     });
   }
