@@ -96,7 +96,7 @@ export class Game {
   updateGameState() {
     for (const ts of Object.values(this.teams)) {
       ts.spill.update();
-      ts.score = ts.score * 0.99 + ts.scoreFrame();
+      ts.score = ts.score * 0.9995 + ts.scoreFrame();
     }
   }
 
