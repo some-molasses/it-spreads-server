@@ -147,16 +147,7 @@ class SpillPoint extends Circle {
 
     const opposingPlayers = Object.values(
       this.getSpill().getGame().players
-    ).filter((player) => {
-      player.team !== this.getSpill().team;
-    });
-
-    if (opposingPlayers.length === 0) {
-      console.log(
-        this.getSpill().team,
-        Object.values(this.getSpill().getGame().players)
-      );
-    }
+    ).filter((player) => player.team !== this.getSpill().team);
 
     if (opposingPlayers.length > 0) {
       console.log("MORE THAN ZERO OPPONENTS");
