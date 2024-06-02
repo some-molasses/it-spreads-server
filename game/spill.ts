@@ -53,7 +53,7 @@ export class Spill {
       }
 
       if (this.points.length < POINT_MAXIMUM) {
-        const spreads = Math.min(
+        const spreads = Math.max(
           Math.ceil(this.getGame().playersByTeam[this.team].length / 1.5),
           1
         );
