@@ -148,7 +148,7 @@ class SpillPoint extends Circle {
     /**
      * @todo handle multiple players per team
      */
-    for (const player of this.getSpill().getGame().players) {
+    for (const player of Object.values(this.getSpill().getGame().players)) {
       const playerDistance = player.distanceTo(this);
       if (playerDistance < SWEEP_RADIUS) {
         this.r -= Math.pow(
