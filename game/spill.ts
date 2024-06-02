@@ -78,7 +78,7 @@ export class Spill {
   }
 
   update() {
-    const opposingPlayers = Object.values(this.getGame().players)
+    const opposingPlayers = Object.values(this.getGame())
       .filter((player) => player && player.team !== this.team)
       .sort(
         (a, b) =>
@@ -86,8 +86,8 @@ export class Spill {
           (b?.getConnection()?.connectionTime ?? 0)
       ) as Player[];
 
-    const checkedPlayers = opposingPlayers.filter((player, index) => {
-      return index <= this.getGame().maxPlayersPerTeam;
+    const checkedPlayers = opposingPlayers.filter((_, index) => {
+      return index < this.getGame().maxPlayersPerTeam;
     });
 
     for (const point of this.points) {
