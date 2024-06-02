@@ -130,6 +130,7 @@ export class Connections {
     );
 
     if (killableClient) {
+      console.info(`Marking client ${killableClient.playerId} for deletion`);
       killableClient.isToBeKilled = true;
     }
 
