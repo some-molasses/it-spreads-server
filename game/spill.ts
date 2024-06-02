@@ -85,23 +85,21 @@ export class Spill {
   spread() {
     const base = this.points[this.points.length - 1]; // random walk
 
-    if (!base) {
-      new SpillPoint(
-        CONFIG.inWidth(Math.random() * CONFIG.WIDTH, MAX_CIRCLE_WIDTH),
-        CONFIG.inHeight(Math.random() * CONFIG.HEIGHT, MAX_CIRCLE_WIDTH),
-        () => this
-      );
-    }
+    const baseX =
+      base?.x ?? CONFIG.inWidth(Math.random() * CONFIG.WIDTH, MAX_CIRCLE_WIDTH);
+    const baseY =
+      base?.y ??
+      CONFIG.inHeight(Math.random() * CONFIG.HEIGHT, MAX_CIRCLE_WIDTH);
 
-    const leftBias = 1 - Math.min(base.x / SOFT_BORDER_MARGIN, 1);
+    const leftBias = 1 - Math.min(baseX ?? 0 / SOFT_BORDER_MARGIN, 1);
     const rightBias = -(
-      1 - Math.min((CONFIG.WIDTH - base.x) / SOFT_BORDER_MARGIN, 1)
+      1 - Math.min((CONFIG.WIDTH - baseX) / SOFT_BORDER_MARGIN, 1)
     );
 
     const biasedXRand = Math.random() + leftBias + rightBias;
-    const x = base.x + (biasedXRand * SPREAD_DISTANCE * 2 - SPREAD_DISTANCE);
+    const x = baseX + (biasedXRand * SPREAD_DISTANCE * 2 - SPREAD_DISTANCE);
 
-    const y = base.y + (Math.random() * SPREAD_DISTANCE * 2 - SPREAD_DISTANCE);
+    const y = baseY + (Math.random() * SPREAD_DISTANCE * 2 - SPREAD_DISTANCE);
 
     this.points.push(
       new SpillPoint(

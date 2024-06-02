@@ -44,8 +44,12 @@ export class Game {
   };
   startTime: number = Date.now();
 
+  get playersByTeam() {
+    return Connections.connectionsByTeam;
+  }
+
   get playersRemainingByTeam() {
-    const connectionsPerTeam = Connections.connectionsByTeam;
+    const connectionsPerTeam = this.playersByTeam;
 
     return {
       [Team.GREEN]:
@@ -56,7 +60,6 @@ export class Game {
   }
 
   activate() {
-    console.info("Activating game");
     this.startTime = Date.now();
     this.interval = setInterval(() => this.main(), 1000 / 60);
 
