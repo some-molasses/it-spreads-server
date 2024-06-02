@@ -151,6 +151,11 @@ class SpillPoint extends Circle {
       player.team !== this.getSpill().team;
     });
 
+    if (opposingPlayers.length === 0) {
+      console.log(Object.values(this.getSpill().getGame().players));
+      console.log(this.getSpill().team);
+    }
+
     for (const player of opposingPlayers) {
       const playerDistance = player.distanceTo(this);
       if (playerDistance < SWEEP_RADIUS) {
