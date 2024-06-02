@@ -1,7 +1,8 @@
-import { oppositeTeam } from "../util";
 import { Player } from "./entities/player";
 import { Team } from "./globals";
 import { Spill } from "./spill";
+
+const GAME_LENGTH = 1.5 * 60 * 1000;
 
 class TeamState {
   spill: Spill;
@@ -38,9 +39,11 @@ export class Game {
     [Team.GREEN]: new TeamState(Team.GREEN, () => this),
     [Team.PURPLE]: new TeamState(Team.PURPLE, () => this),
   };
+  startTime: number = Date.now();
 
   activate() {
     console.info("Activating game");
+    this.startTime = Date.now();
     this.interval = setInterval(() => this.main(), 1000 / 60);
   }
 
@@ -58,6 +61,7 @@ export class Game {
     this.players = {};
     this.teams[Team.GREEN].score = 0;
     this.teams[Team.PURPLE].score = 0;
+    this.startTime = 0;
 
     console.info("Game deactivated");
   }
@@ -87,6 +91,7 @@ export class Game {
     return {
       players: this.players,
       teams: this.teams,
+      timeRemaining: GAME_LENGTH - (Date.now() - this.startTime),
     };
   }
 }
