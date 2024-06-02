@@ -35,6 +35,7 @@ export class Player extends Circle {
       toDecimals(this.dx, 2),
       toDecimals(this.dy, 2),
       this.team,
+      this.getConnection()?.connectionTime,
     ];
   }
 }

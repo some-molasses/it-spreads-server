@@ -20,8 +20,4 @@ export class Circle {
         Math.pow(this.y + this.r / 2 - (circle.y + circle.r / 2), 2)
     );
   }
-
-  toJSON() {
-    return [toDecimals(this.x, 2), toDecimals(this.y, 2)];
-  }
 }

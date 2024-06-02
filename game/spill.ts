@@ -90,9 +90,10 @@ export class Spill {
       return index <= this.getGame().maxPlayersPerTeam;
     });
 
-    for (const player of checkedPlayers) {
-      for (const point of this.points) {
-        point.update(player);
+    for (const point of this.points) {
+      point.update();
+      for (const player of checkedPlayers) {
+        point.updateForPlayer(player);
       }
     }
   }
@@ -169,7 +170,7 @@ class SpillPoint extends Circle {
     ];
   }
 
-  update(player: Player) {
+  update() {
     if (this.growthState === SpillPoint.State.SHRINKING) {
       this.r -= SPILL_POINT_GROWTH_RATE;
     }
@@ -181,7 +182,9 @@ class SpillPoint extends Circle {
     if (this.dying) {
       return;
     }
+  }
 
+  updateForPlayer(player: Player) {
     const playerDistance = player.distanceTo(this);
     if (playerDistance < SWEEP_RADIUS) {
       this.r -= Math.pow(
