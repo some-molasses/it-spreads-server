@@ -141,8 +141,6 @@ export class Connections {
         data.payload.player
       );
 
-      GlobalState.activeGames[0].updateGameState();
-
       this.sendState();
     }
   }
