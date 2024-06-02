@@ -21,7 +21,7 @@ class TeamState {
    */
   scoreFrame(): number {
     return (
-      this.getGame().teams[oppositeTeam(this.team)].spill.scoreSpill() / 1000
+      this.getGame().teams[oppositeTeam(this.team)].spill.scoreSpill() / 10000
     );
   }
 
@@ -56,7 +56,10 @@ export class Game {
 
   deactivate() {
     clearInterval(this.interval);
+
     this.players = {};
+    this.teams[Team.GREEN].score = 0;
+    this.teams[Team.PURPLE].score = 0;
 
     console.info("Game deactivated");
   }
