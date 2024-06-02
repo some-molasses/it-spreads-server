@@ -152,8 +152,7 @@ class SpillPoint extends Circle {
     });
 
     if (opposingPlayers.length === 0) {
-      console.log(Object.values(this.getSpill().getGame().players));
-      console.log(this.getSpill().team);
+      console.log(this.getSpill().team, Object.values(this.getSpill().getGame().players));
     }
 
     for (const player of opposingPlayers) {
